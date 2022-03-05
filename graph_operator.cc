@@ -82,13 +82,23 @@ struct Graph {
     int hasPoint(int point) const {
        return setP.find(point) != setP.end();
     }
+
     void bfs(int p) {
         queue<int> q;
         q.push(p);
         vector<int> visited(sp.size(), false);
+        visited[p] = true;
         while(!q.empty()) {
             int x = q.front();
+            cout << x << endl;
             q.pop();
+            for (int i = 0; i < this->getNbrEdgeSize(x); i += 1) {
+                int to = this->getNbrEdgePoint(x, i);
+                if (!visited[to]) {
+                    visited[to] = true;
+                    q.push(to);
+                }
+            }
         }
     }
 };
@@ -248,6 +258,7 @@ int main() {
         swap(e.a, e.b);
         g.addEdge(e);
     }
+    g.bfs(2);
     Graph start;
     start.addPoint(2, 0);
     Frontier f;
